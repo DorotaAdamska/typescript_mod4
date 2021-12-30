@@ -4,18 +4,19 @@ import mongoose from 'mongoose'
 import departmentsRoutes from './routes/departments.routes'
 import employeesRoutes from './routes/employees.routes'
 import productsRoutes from './routes/products.routes'
+import { Route } from './interfaces';
 
 class App {
-  app: express.Application
-  routes: [] = []
-  db: mongoose.Connection
-  server: any
+  protected app: express.Application
+  protected routes: Route[] = []
+  protected db: mongoose.Connection
+  protected server: any
 
   constructor() {
     this.app = express()
   }
 
-  connectToDb(url) {
+  connectToDb(url: string): void {
     mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true })
     this.db = mongoose.connection
     this.db.once('open', () => {
@@ -24,17 +25,17 @@ class App {
     this.db.on('error', err => console.log('Error ' + err))
   }
 
-  addRoutes(path, routes) {
+  addRoutes(path: string, routes: express.Router): void {
     this.routes.push({ path, routes })
   }
 
-  prepareRoutes() {
+  prepareRoutes(): void {
     for(const group of this.routes) {
       this.app.use(group.path, group.routes)
     }
   }
 
-  run(port) {
+  run(port: string): void {
 
     this.app.use(cors())
     this.app.use(express.json())

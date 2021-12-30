@@ -1,8 +1,13 @@
-import mongoose from 'mongoose'
+import mongoose, { Document, Schema, Model } from 'mongoose';
+import { prop, getModelForClass } from '@typegoose/typegoose';
+ 
+class ProductClass {
+  @prop({ required: true})
+  public name: string;
 
-const productSchema = new mongoose.Schema({
-  name: { type: String, required: true },
-  client: { type: String, required: true }
-})
+  @prop({ required: true })
+  public client: string;
+}
+ const Product = getModelForClass(ProductClass)
 
-export default mongoose.model('Product', productSchema)
+export default Product;

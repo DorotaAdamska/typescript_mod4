@@ -1,7 +1,13 @@
-import mongoose from 'mongoose'
+import mongoose, { Document, Schema, Model } from 'mongoose';
+import { prop, getModelForClass } from '@typegoose/typegoose';
 
-const departmentSchema = new mongoose.Schema({
-  name: { type: String, required: true, minlength: 5, maxlength: 20  }
-})
+class DepartmentClass {
+  @prop({ required: true })
+  public name: string;
+  public minlength: number;
+  public maxlength: number
+}
 
-export default mongoose.model('Department', departmentSchema)
+const Department = getModelForClass(DepartmentClass)
+
+export default Department;

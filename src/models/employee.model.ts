@@ -1,9 +1,16 @@
-import mongoose from 'mongoose'
+import mongoose, { Document, Schema, Model, PromiseProvider } from 'mongoose';
+import { prop, getModelForClass } from '@typegoose/typegoose';
 
-const employeeSchema = new mongoose.Schema({
-  firstName: { type: String, required: true },
-  lastName: { type: String, required: true },
-  department: { type: String, required: true }
-})
+class EmploeeClass {
+  @prop({ required: true })
+  public firsName: string;
 
-export default mongoose.model('Employee', employeeSchema)
+  @prop({ required: true })
+  public lastName: string;
+
+  @prop({ required: true})
+  public department: string;
+}
+const Employee = getModelForClass(EmploeeClass)
+
+export default Employee;
